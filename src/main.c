@@ -12,9 +12,9 @@ void famine(char *fullpath) {
 }
 
 void list_recursive(const char *path) {
-    struct dirent *entry;
-    char fullpath[PATH_MAX];
-    struct stat st;
+    struct dirent *entry = NULL;
+    char fullpath[PATH_MAX] = {};
+    struct stat st = {};
 
     DIR *dir = opendir(path);
     if (!dir) return;

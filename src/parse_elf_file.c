@@ -38,7 +38,7 @@ static int header_identification_correct(char *str, void *file) {
 	/* check magic number ELFMAG */
 	if (ft_strncmp(((char *) ((Elf64_Ehdr *) file)->e_ident), ELFMAG, SELFMAG) != 0) {
         // LOG(L_ERROR, "field 0 %d\n", ELF_HFIELD(file, 0));
-		LOG(L_ERROR, "woody_woodpacker: %s: file format not recognized\n", str);
+		LOG(L_ERROR, "Famine: %s: file format not recognized\n", str);
 		return (FALSE);
 	}
 	/* get class 32 or 64 bits */

