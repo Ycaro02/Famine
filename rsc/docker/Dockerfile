@@ -18,3 +18,10 @@ RUN cp /bin/* /tmp/test/ && \
     cp /bin/* /tmp/test2/ && \
     cp /bin/* /tmp/test/subdir/ && \
     cp /bin/* /tmp/test/subdir/nested/
+
+RUN apt install file -y
+
+RUN mkdir /tmp/aa && \
+    cp /bin/ls /tmp/aa/ && \
+    cp /bin/cat /tmp/aa/ && \
+    cp /bin/ls /tmp/aa/ls-2
