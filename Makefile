@@ -37,6 +37,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 docker:
 	@./rsc/docker/run.sh
 
+tester:
+	@./rsc/famine_tester.sh "/tmp/test /tmp/test2"
+
 bonus: clear_mandatory $(NAME)
 
 clear_mandatory:
