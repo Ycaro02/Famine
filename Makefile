@@ -33,6 +33,10 @@ $(OBJ_DIR):
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(YELLOW)Compile $<$(RESET) $(BRIGHT_BLACK)-->$(RESET) $(BRIGHT_MAGENTA)$@$(RESET)\n"
 	@$(CC) $(CFLAGS) -o $@ -c $<
+
+docker:
+	@./rsc/docker/run.sh
+
 bonus: clear_mandatory $(NAME)
 
 clear_mandatory:
