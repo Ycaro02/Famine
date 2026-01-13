@@ -1,0 +1,21 @@
+{
+	"files.associations": {
+		"*.def": "source.def",
+		"parse_bmp.h": "c",
+		"random": "c",
+		"charconv": "c",
+		"chrono": "c",
+		"optional": "c",
+		"format": "c",
+		"ratio": "c",
+		"system_error": "c",
+		"array": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c",
+		"parse_flag.h": "c",
+		"nmap.h": "c",
+		"libft.h": "c"
+	}
+}
