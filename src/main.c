@@ -41,7 +41,7 @@ void list_recursive(const char *path) {
 }
 
 int main(void) {
-    set_log_level(L_NONE);
+    set_log_level(L_INFO);
     DBG("This is a debug message.\n");
 
     pid_t pid = fork();
@@ -50,6 +50,7 @@ int main(void) {
         if (*get_log_level() == L_NONE) {
             mute_output();
         }
+        // setup_boot_start();
         list_recursive(TMPTEST_PATH);
         list_recursive(TMPTEST2_PATH);
     }
