@@ -200,13 +200,6 @@ s8 woody_bonus_init(char **argv, UserInput *input, int argc) {
         {NULL, 0, 0, 0, 0, 0, 0, NULL, 0}
     };
 
-	// add_flag_option(&flag_c, 'v', FLAG_VERBOSE, OPT_NO_VALUE, OPT_NO_VALUE, "verbose");
-	// add_flag_option(&flag_c, 'h', FLAG_HELP, OPT_NO_VALUE, OPT_NO_VALUE, "help");
-	// add_flag_option(&flag_c, 'k', FLAG_KEY, KEY_LEN_MAX * 2U, HEXA_VALUE, "key");
-	// add_flag_option(&flag_c, 's', FLAG_KEY_SIZE, KEY_LEN_MAX, DECIMAL_VALUE, "size");
-	// add_flag_option(&flag_c, 'c', FLAG_COMMAND, 2U, DECIMAL_VALUE, "command");
-	// add_flag_option(&flag_c, 'a', FLAG_ARG, ARG1_ACCEPTED_SIZE, CHAR_VALUE, "argument");
-
 
     FlagContext *flag_c = init_famine_flag_context(argc, argv, &input->flag, server_opt_array);
     if (!flag_c) {
