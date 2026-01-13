@@ -27,7 +27,7 @@ function famine_tester() {
         log I "Found $(echo "${elf_file_lst}" | wc -l) ELF files in ${dir}."
     
         for f in ${elf_file_lst}; do
-            local signature_output=$(strings ${f} | grep -i nfour)
+            local signature_output=$(strings ${f} | grep "${EXPECTED_SIGNATURE}")
             if [[ ! -z "${signature_output}" ]] && [[ ${signature_output} == "${EXPECTED_SIGNATURE}" ]]; then
                 log I "File ${f} signed" 2>> ${TESTER_VERBOSE_LOG}
             else 
