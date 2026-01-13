@@ -5,7 +5,7 @@
 #define BYTE_DECREMENT_MASK	0x0101010101010101ULL
 #define MSB_MASK			0x8080808080808080ULL
 
-int fast_strcmp(const char *s1, const char *s2)
+int ft_strcmp(const char *s1, const char *s2)
 {
 	const u64 *p1, *p2;
 	

@@ -13,6 +13,7 @@ SRCS			=	log/log.c \
 					elf_getter.c \
 					parse_elf_file.c \
 					signature.c \
+					utils.c \
 
 # SRCS_BONUS		=	main_bonus.c
 
