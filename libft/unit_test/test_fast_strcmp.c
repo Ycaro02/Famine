@@ -2,52 +2,52 @@
 
 #include "../libft.h"
 
-void test_fast_strcmp(void)
+void test_ft_strcmp(void)
 {
-    assert(fast_strcmp("hello", "hello") == 0);
+    assert(ft_strcmp("hello", "hello") == 0);
 
-    assert(fast_strcmp("abc", "abcd") == ('\0' - 'd'));
+    assert(ft_strcmp("abc", "abcd") == ('\0' - 'd'));
 
-    assert(fast_strcmp("abcd", "abc") == ('d' - '\0'));
+    assert(ft_strcmp("abcd", "abc") == ('d' - '\0'));
 
-    assert(fast_strcmp("foo", "bar") == ('f' - 'b'));
+    assert(ft_strcmp("foo", "bar") == ('f' - 'b'));
 
-    assert(fast_strcmp("", "nonempty") == ('\0' - 'n'));
-    assert(fast_strcmp("nonempty", "") == ('n' - '\0'));
+    assert(ft_strcmp("", "nonempty") == ('\0' - 'n'));
+    assert(ft_strcmp("nonempty", "") == ('n' - '\0'));
 
-    assert(fast_strcmp("", "") == 0);
+    assert(ft_strcmp("", "") == 0);
 
 	const char *long_str1 = "This is a very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function.";
+                            "the performance and correctness of the ft_strcmp function.";
     const char *long_str2 = "This is a very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function.";
-    assert(fast_strcmp(long_str1, long_str2) == 0);
+                            "the performance and correctness of the ft_strcmp function.";
+    assert(ft_strcmp(long_str1, long_str2) == 0);
 
     const char *long_str3 = "This is a very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function.";
+                            "the performance and correctness of the ft_strcmp function.";
     const char *long_str4 = "This is a very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function. Extra characters.";
-    assert(fast_strcmp(long_str3, long_str4) == ('\0' - ' '));
+                            "the performance and correctness of the ft_strcmp function. Extra characters.";
+    assert(ft_strcmp(long_str3, long_str4) == ('\0' - ' '));
 
     const char *long_str5 = "This is a very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function. Extra characters.";
+                            "the performance and correctness of the ft_strcmp function. Extra characters.";
     const char *long_str6 = "This is a very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function.";
-    assert(fast_strcmp(long_str5, long_str6) == (' ' - '\0'));
+                            "the performance and correctness of the ft_strcmp function.";
+    assert(ft_strcmp(long_str5, long_str6) == (' ' - '\0'));
 
     const char *long_str7 = "This is a very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function.";
+                            "the performance and correctness of the ft_strcmp function.";
     const char *long_str8 = "Another very long string used for testing purposes. "
                             "It contains multiple sentences and is designed to test "
-                            "the performance and correctness of the fast_strcmp function.";
-    assert(fast_strcmp(long_str7, long_str8) == ('T' - 'A'));
+                            "the performance and correctness of the ft_strcmp function.";
+    assert(ft_strcmp(long_str7, long_str8) == ('T' - 'A'));
 	ft_printf_fd(1, GREEN"All tests passed for %s\n"RESET, __func__);
 }
 
@@ -70,19 +70,19 @@ void test_fast_strcpy(void)
 {
 	char dst[100];
 	assert(fast_strcpy(dst, "hello") == dst);
-	assert(fast_strcmp(dst, "hello") == 0);
+	assert(ft_strcmp(dst, "hello") == 0);
 
 	assert(fast_strcpy(dst, "abc") == dst);
-	assert(fast_strcmp(dst, "abc") == 0);
+	assert(ft_strcmp(dst, "abc") == 0);
 
 	assert(fast_strcpy(dst, "abcd") == dst);
-	assert(fast_strcmp(dst, "abcd") == 0);
+	assert(ft_strcmp(dst, "abcd") == 0);
 
 	assert(fast_strcpy(dst, "foo") == dst);
-	assert(fast_strcmp(dst, "foo") == 0);
+	assert(ft_strcmp(dst, "foo") == 0);
 
 	assert(fast_strcpy(dst, "") == dst);
-	assert(fast_strcmp(dst, "") == 0);
+	assert(ft_strcmp(dst, "") == 0);
 
 	char dst2[200];
 
@@ -90,7 +90,7 @@ void test_fast_strcpy(void)
 							"It contains multiple sentences and is designed to test "
 							"the performance and correctness of the fast_strcpy function.";
 	assert(fast_strcpy(dst2, long_str) == dst2);
-	assert(fast_strcmp(dst2, long_str) == 0);
+	assert(ft_strcmp(dst2, long_str) == 0);
 	ft_printf_fd(1, GREEN"All tests passed for %s\n"RESET, __func__);
 }
 
@@ -139,7 +139,7 @@ void test_fast_bzero(void)
 
 int main(void)
 {
-    test_fast_strcmp();
+    test_ft_strcmp();
 	test_fast_strlen();
 	test_fast_strcpy();
 	test_fast_bzero();

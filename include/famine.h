@@ -3,6 +3,7 @@
 
 #include <sys/mman.h>
 #include <sys/wait.h>
+#include <dirent.h>
 #include <sys/stat.h>
 #include "../libft/libft.h"
 #include "../include/log.h"
@@ -22,7 +23,10 @@ typedef struct FamineFile {
     u64         size;          /* Size of the section */
 } FamineFile;
 
-void mute_output();
+#define TMPTEST_PATH "/tmp/test"
+#define TMPTEST2_PATH "/tmp/test2"
+
+void        mute_output();
 
 /* Famine file handling parse elf and get file structure */
 FamineFile  *elf_file_get(char *path);
