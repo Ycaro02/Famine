@@ -16,7 +16,7 @@ jobs:
         submodules: true
 
     - name: Run make
-      run: sudo apt update && sudo apt install file -y && make test
+      run: sudo apt update && sudo apt install file -y && make tester
 
     - name: clean
       run: make fclean
