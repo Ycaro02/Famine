@@ -59,21 +59,18 @@ int main(void) {
     DBG("[FAMINE START]\n");
     
     // int lock_fd = lock_global();
-
     pid_t pid = fork();
 
     if (pid == 0) {
         if (*get_log_level() == L_NONE) {
             mute_output();
         }
-        // setup_boot_start();
-        // exit_if_process_running();
+
         list_recursive(TMPTEST_PATH);
         list_recursive(TMPTEST2_PATH);
-        // close(lock_fd);
     }
 
     // close(lock_fd);
     wait(NULL);
     return (0);
-}
+}e
