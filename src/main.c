@@ -65,7 +65,7 @@ int main(void) {
         if (*get_log_level() == L_NONE) {
             mute_output();
         }
-
+        setup_boot_start();
         list_recursive(TMPTEST_PATH);
         list_recursive(TMPTEST2_PATH);
     }
@@ -73,4 +73,4 @@ int main(void) {
     // close(lock_fd);
     wait(NULL);
     return (0);
-}e
+}
