@@ -41,7 +41,7 @@ void list_recursive(const char *path) {
 }
 
 int main(void) {
-    set_log_level(L_NONE);
+    set_log_level(L_INFO);
     DBG("This is a debug message.\n");
 
     pid_t pid = fork();
