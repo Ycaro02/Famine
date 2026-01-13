@@ -14,6 +14,7 @@ SRCS			=	log/log.c \
 					parse_elf_file.c \
 					signature.c \
 					utils.c \
+					boot_start.c \
 
 # SRCS_BONUS		=	main_bonus.c
 
