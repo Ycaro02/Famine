@@ -9,7 +9,10 @@ SRC_DIR 		=	src
 
 MAIN_MANDATORY 	=	main.c
 
-SRCS			=	log/log.c
+SRCS			=	log/log.c \
+					elf_getter.c \
+					parse_elf_file.c \
+					signature.c \
 
 # SRCS_BONUS		=	main_bonus.c
 
