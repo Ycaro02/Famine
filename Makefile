@@ -6,7 +6,7 @@ CC              =   clang
 
 all:        $(NAME)
 
-$(NAME): $(LIBFT) $(LIST) $(OBJ_DIR) $(OBJS)
+$(NAME): $(LIBFT) $(LIST) $(OBJ_DIR) $(OBJS) 
 	@$(MAKE_LIBFT)
 	@$(MAKE_LIST)
 	@printf "$(CYAN)Compiling ${NAME} ...$(RESET)\n"
@@ -27,6 +27,13 @@ ifeq ($(shell [ -f ${LIBFT} ] && echo 0 || echo 1), 1)
 	@printf "$(GREEN)Compiling libft done$(RESET)\n"
 endif
 
+bonus: $(LIBFT) $(LIST) $(OBJ_DIR) $(OBJS) $(ASM_OBJS)
+	@$(MAKE_LIBFT)
+	@$(MAKE_LIST)
+	@printf "$(CYAN)Compiling ${NAME} ...$(RESET)\n"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(ASM_OBJS) $(LIBFT) $(LIST) -lm
+	@printf "$(GREEN)Compiling $(NAME) done$(RESET)\n"
+
 $(OBJ_DIR):
 	@mkdir -p $(ALL_SRC_DIR)
 
@@ -34,13 +41,16 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(YELLOW)Compile $<$(RESET) $(BRIGHT_BLACK)-->$(RESET) $(BRIGHT_MAGENTA)$@$(RESET)\n"
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.s
+	@printf "$(YELLOW)Compile $<$(RESET) $(BRIGHT_BLACK)-->$(RESET) $(BRIGHT_MAGENTA)$@$(RESET)\n"
+	@nasm -f elf64 $< -o $@ 
+
 docker:
 	@./rsc/docker/run.sh
 
 tester:
 	@./rsc/famine_tester.sh "/tmp/test /tmp/test2"
 
-bonus: clear_mandatory $(NAME)
 
 clear_mandatory:
 ifeq ($(shell [ -f ${OBJ_DIR}/main.o ] && echo 0 || echo 1), 0)

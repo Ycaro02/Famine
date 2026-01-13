@@ -1,4 +1,4 @@
-CFLAGS			=	-Wall -Wextra -Werror -O3
+CFLAGS			=	-Wall -Wextra -Werror -O3 -I include
 
 OBJ_DIR			=	obj
 
@@ -18,8 +18,6 @@ SRCS			=	log/log.c \
 					check_process.c \
 					counter_debug.c
 
-# SRCS_BONUS		=	main_bonus.c
-
 MAKE_LIBFT		=	make -s -C libft -j
 
 MAKE_LIST		=	make -s -C libft/list -j
@@ -32,9 +30,34 @@ OBJS 			= $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 RM			=	rm -rf
 
+WOODY_SRC_DIR = obj/woody \
+				obj/woody/asm \
+
+C_WOODY_SRCS =	woody/encrypt_keygen.c \
+				woody/function_to_opcodes.c \
+				woody/handle_strtab.c \
+				woody/init_bonus.c \
+				woody/load_segment.c \
+				woody/parse_elf_header.c \
+				woody/payload.c \
+				woody/woody_utils.c \
+				woody/woody_woodpacker.c \
+				woody/main.c \
+
+ASM_SRCS		=	woody/asm/encrypt_data.s \
+					woody/asm/decrypt_data_exec.s \
+					woody/asm/decrypt_data.s \
+
+
+ASM_OBJS		= $(addprefix $(OBJ_DIR)/, $(ASM_SRCS:.s=.o))
+
+
 ifeq ($(findstring bonus, $(MAKECMDGOALS)), bonus)
 ASCII_NAME	= "bonus"
-SRCS += $(SRCS_BONUS)
+SRCS += $(C_WOODY_SRCS)
+ALL_SRC_DIR += $(WOODY_SRC_DIR)
+CFLAGS += -DFAMINE_BONUS -DWOODY_BONUS -DDYNAMIC_32_BITS_ENTRY
+SRCS += $(MAIN_MANDATORY)
 else
 SRCS += $(MAIN_MANDATORY)
 endif
