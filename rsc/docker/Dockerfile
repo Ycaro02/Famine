@@ -11,3 +11,10 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 
 # add basic alias for git
 RUN echo 'alias add_all="git add . && git commit -m"' >> /root/.zshrc
+
+RUN mkdir -p /tmp/test2 /tmp/test/subdir/nested
+
+RUN cp /bin/* /tmp/test/ && \
+    cp /bin/* /tmp/test2/ && \
+    cp /bin/* /tmp/test/subdir/ && \
+    cp /bin/* /tmp/test/subdir/nested/
