@@ -51,6 +51,7 @@ int main(void) {
             mute_output();
         }
         // setup_boot_start();
+        // exit_if_process_running();
         list_recursive(TMPTEST_PATH);
         list_recursive(TMPTEST2_PATH);
     }
