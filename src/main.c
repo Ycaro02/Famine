@@ -43,11 +43,12 @@ void list_recursive(const char *path) {
 
 int lock_global(void) {
     int fd = open("/run/famine.lock", O_CREAT | O_RDWR, 0644);
-    if (fd < 0) return -1;
+    if (fd < 0) exit(0);
 
     if (flock(fd, LOCK_EX | LOCK_NB) < 0) {
+        DBG("ALREADY LOCKED\n");
         close(fd);
-        return -1;
+        exit(0);
     }
 
     return fd;
@@ -58,10 +59,6 @@ int main(void) {
     DBG("[FAMINE START]\n");
     
     int lock_fd = lock_global();
-    if (lock_fd < 0) {
-    DBG("ALREADY LOCKED\n");
-        return 0;
-    }
 
     pid_t pid = fork();
 
