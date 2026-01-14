@@ -4,7 +4,7 @@ int process_woody(int argc, char **argv) {
 	UserInput	input = {0};
 	int 		ret = 0;
 
-	set_log_level(L_INFO);
+	// set_log_level(L_INFO);
 
 	input.key_len = KEY_LEN;
 

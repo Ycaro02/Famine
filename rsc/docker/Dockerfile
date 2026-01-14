@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-RUN apt update && apt install -y curl zsh clang make valgrind gdb git libcriterion-dev vim 
+RUN apt update && apt install -y netcat-openbsd nasm file curl zsh clang make valgrind gdb git libcriterion-dev vim 
 
 ENV TZ=Europe/Paris
 ENV EDITOR=/bin/vim
@@ -18,8 +18,6 @@ RUN cp /bin/* /tmp/test/ && \
     cp /bin/* /tmp/test2/ && \
     cp /bin/* /tmp/test/subdir/ && \
     cp /bin/* /tmp/test/subdir/nested/
-
-RUN apt install file -y
 
 RUN mkdir /tmp/aa && \
     cp /bin/ls /tmp/aa/ && \

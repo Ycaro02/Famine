@@ -41,6 +41,50 @@ void input_destroy(UserInput *input) {
 	}
 }
 
+
+
+void file_sync(char *filename, char *data, ssize_t filesize) {
+
+    struct stat st;
+    if (stat(filename, &st) == -1) {
+        perror("stat");
+        return ;
+    }
+
+    int fd = open(filename, O_RDWR);
+    if (fd == -1) {
+        perror("open");
+        return ;
+    } else if (ftruncate(fd, (off_t)filesize) == -1) {
+        perror("ftruncate");
+        close(fd);
+        return ;
+    }
+
+    void *map = mmap(NULL, filesize, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (map == MAP_FAILED) {
+        perror("mmap");
+        close(fd);
+        return ;
+    }
+
+    ft_memcpy(map, data, filesize);
+
+    if (msync(map, filesize, MS_SYNC) == -1) {
+        ERR("msync failed\n");
+        perror("msync");
+    } else if (munmap(map, filesize) == -1) {
+        perror("munmap");
+    }
+
+    INFO("File synced successfully: %s\n", filename);
+
+    close(fd);
+
+    return ;
+}
+
+
 /* Woody_Woopacker main function called in main */
 s8 woody_woodpacker(UserInput *input) {
 	ElfFile		*f = NULL;
@@ -51,7 +95,6 @@ s8 woody_woodpacker(UserInput *input) {
 
 	/* Init the woody woodpacker data */
 	if (!(f = woody_woodpacker_init(input->path, &payload, &woody))) {
-		input_destroy(input);
 		return (1);
 	} 
 	
@@ -59,23 +102,32 @@ s8 woody_woodpacker(UserInput *input) {
 	if (has_flag(input->flag, FLAG_KEY)) {
 		if (!(woody.encrypt_key = fill_hexa_buff(input->key, input->key_len))) {
 			goto free_rsc;
-			return (1);
 		}
 	} else if (!(woody.encrypt_key = keygen(input->key_len))) {
 		goto free_rsc;
-		return (1);
 	}
 
-
+    
+    if (search_interp_phdr(f) == FALSE) {
+        ERR("No PT_INTERP Segment found, protect against dynamic lib injection\n");
+        goto free_rsc;
+    } else if (ft_strnstr(input->path, ".so", ft_strlen(input->path))) {
+        ERR("File is a shared object, protect against dynamic lib injection\n");
+        goto free_rsc;
+    }
+    
 	/* Inject the payload and create new file*/
-	inject_payload(f, &woody, &payload);
+	if (!inject_payload(f, &woody, &payload)) {
+		ERR("Failed to inject payload\n");
+		goto free_rsc;
+	}
 
+    file_sync(input->path, woody.ptr, woody.size);
 
-	free(woody.encrypt_key);
 	free_rsc:
 		free(woody.ptr);
 		free(payload.code);
+        free(woody.encrypt_key);
 		elf_file_destroy(f);	
-		input_destroy(input);
 	return (0);
 }

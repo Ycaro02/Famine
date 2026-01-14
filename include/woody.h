@@ -1,8 +1,9 @@
 #ifndef _WOODY_H_DECLARE_
 #define _WOODY_H_DECLARE_
 
-#include <fcntl.h>				/* open */
 #include <elf.h>				/* Elf64/32 struct */
+#include <fcntl.h>				/* open */
+#include <sys/stat.h>
 #include <sys/mman.h>			/* mmap */
 #include "log.h"
 
@@ -231,6 +232,7 @@ u8			*opcodes_get(void *func_ptr, u64 code_len, u64 total_len);
 
 s8			segment_load(ElfFile *file);
 void 		data_and_last_segment_handling(ElfFile *file, WoodyData *woody);
+s8          search_interp_phdr(ElfFile *file);
 
 /*----------------------------------------------------------------------------------*/
 /*								handle_strtab.c										*/
@@ -245,7 +247,7 @@ void		shstrab_woody_add(ElfFile *f, WoodyData *woody, Payload *payload);
 /*								payload.c											*/
 /*----------------------------------------------------------------------------------*/
 
-void		inject_payload(ElfFile *f, WoodyData *woody, Payload *payload);
+s8		    inject_payload(ElfFile *f, WoodyData *woody, Payload *payload);
 s8			payload_build(Payload *payload, s8 is_64);
 
 /*----------------------------------------------------------------------------------*/

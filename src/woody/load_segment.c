@@ -161,11 +161,33 @@ static Elf64_Xword ph_data_diff_size_compute(ElfFile *file) {
 	return (diff_size);
 }
 
+s8 search_interp_phdr(ElfFile *file) {
+    void	*program_header = NULL;
+    u32		idx = 0;
+    u32 	phsize = Ehdr_phentsize_get(file->ptr, file->endian);
+    u32		phnum = Ehdr_phnum_get(file->ptr, file->endian);
+
+    program_header = Ehdr_phoff_get(file->ptr, file->endian) + file->ptr;
+    while (idx < phnum) {
+        if ((program_header + (idx * phsize)) > file->end || program_header + (idx * phsize) < file->ptr) {
+            LOG(L_ERROR, RED"Segment offset out of range\n"RESET);
+            break;
+        }
+        if (Phdr_type_get(program_header + (idx * phsize), file->endian, file->is_64) == PT_INTERP) {
+            LOG(L_INFO, GREEN"PT_INTERP Segment found at index: %u\n"RESET, idx);
+            return (TRUE);
+        }
+        idx++;
+    }
+    return (FALSE);
+}
+
 /**
  * @brief Load the segments of the ELF file
  * @param file The ELF file
  */
 s8 segment_load(ElfFile *file) {
+
 	/* Get the section header */
 	file->shdr_off = Ehdr_shoff_get(file->ptr, file->endian);
 	
@@ -187,6 +209,10 @@ s8 segment_load(ElfFile *file) {
 
 	/* get the .init section header */
 	file->text_data->shdr = shdr_get(file, ".init");
+    if (!file->text_data->shdr) {
+        LOG(L_INFO, RED"Error: .init section not found\n"RESET);
+        return (FALSE);
+    }
 
 	/* get the offset in phdr and shdr */
 	file->text_data->phdr_off = Phdr_offset_get(file->text_data->phdr, file->endian, file->is_64);

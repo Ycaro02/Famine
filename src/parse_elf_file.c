@@ -174,6 +174,6 @@ FamineFile *famine_elf_file_get(char *path) {
 
     ff->name = ft_strdup(path);
     ff->size = size;
-	LOG(L_INFO, YELLOW"ELF file loaded size : %lu\n"RESET, f->size);
+	LOG(L_INFO, YELLOW"ELF file loaded size : %lu\n"RESET, size);
 	return (ff);
 }

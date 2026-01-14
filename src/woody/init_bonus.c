@@ -78,7 +78,6 @@ static s8 command_option_handling(UserInput *input, FlagContext *flag_c) {
 	return (TRUE);
 
 	error_case:
-		input_destroy(input);
 		free_flag_context(flag_c);
 		return (FALSE);
 }
@@ -118,22 +117,22 @@ static s8 key_option_handling(UserInput *input, FlagContext *flag_c) {
 		return (FALSE);
 }
 
-static s8 file_name_get(int argc , char **argv, UserInput *input, FlagContext *flag_c) {
-	t_list 			*args = NULL;
-	s32				nb_args = 0;
+// static s8 file_name_get(int argc , char **argv, UserInput *input, FlagContext *flag_c) {
+// 	t_list 			*args = NULL;
+// 	s32				nb_args = 0;
 
-	args = extract_args(argc, argv);
-	nb_args = ft_lstsize(args);
-	if (nb_args != 1) {
-		ft_printf_fd(1, HELP_MSG, argv[0]);
-		free_flag_context(flag_c);
-		return (FALSE);
-	}
-	input->path = ft_strdup((char *)args->content);
-	ft_lstclear(&args, free);
+// 	args = extract_args(argc, argv);
+// 	nb_args = ft_lstsize(args);
+// 	if (nb_args != 1) {
+// 		ft_printf_fd(1, HELP_MSG, argv[0]);
+// 		free_flag_context(flag_c);
+// 		return (FALSE);
+// 	}
+// 	input->path = ft_strdup((char *)args->content);
+// 	ft_lstclear(&args, free);
 	
-	return (TRUE);
-}
+// 	return (TRUE);
+// }
 
 typedef struct flag_struct_opt {
     char                *full_name;                 /* Full option name */
@@ -208,18 +207,18 @@ s8 woody_bonus_init(char **argv, UserInput *input, int argc) {
 
 	flag_c->prg_name = argv[0];
 
-	if (!file_name_get(argc, argv, input, flag_c)) {
-		return (FALSE);
-	} else if (has_flag(input->flag, FLAG_HELP)) {
-		ft_printf_fd(1, HELP_MSG, argv[0]);
-		free(input->path);
-		free_flag_context(flag_c);
-		return (FALSE);
-	}  
+	// if (!file_name_get(argc, argv, input, flag_c)) {
+	// 	return (FALSE);
+	// } else if (has_flag(input->flag, FLAG_HELP)) {
+	// 	ft_printf_fd(1, HELP_MSG, argv[0]);
+	// 	free(input->path);
+	// 	free_flag_context(flag_c);
+	// 	return (FALSE);
+	// }  
 	
-	if (has_flag(input->flag, FLAG_VERBOSE)) {
-		set_log_level(L_INFO);
-	} 
+	// if (has_flag(input->flag, FLAG_VERBOSE)) {
+	// 	set_log_level(L_INFO);
+	// } 
 	
 	if (!key_option_handling(input, flag_c)) {
 		return (FALSE);

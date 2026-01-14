@@ -186,7 +186,7 @@ static void payload_setup_info(Payload *payload, ElfFile *f, WoodyData *woody, E
  * @param woody The WoodyData struct
  * @param payload The payload struct
  */
-void inject_payload(ElfFile *f, WoodyData *woody, Payload *payload) {
+s8 inject_payload(ElfFile *f, WoodyData *woody, Payload *payload) {
 	/* Save the base entry point */
 	Elf64_Addr	base_entry = Ehdr_entry_get(f->ptr, f->endian);
 	Elf64_Addr	new_entry = 0;
@@ -224,8 +224,9 @@ void inject_payload(ElfFile *f, WoodyData *woody, Payload *payload) {
 	*/
 	if (f->text_data->phdr_off < f->text_data->shdr_off) {
 		LOG(L_INFO, RED"Error: Can't encrypt the entire text section\n"RESET);
-		woody->encrypt_size = Shdr_size_get(f->text_data->shdr, f->endian, f->is_64);
-		f->text_data->encrypt_off = f->text_data->shdr_off;
+        return (FALSE);
+        // woody->encrypt_size = Shdr_size_get(f->text_data->shdr, f->endian, f->is_64);
+		// f->text_data->encrypt_off = f->text_data->shdr_off;
 	}
 
 	/* Setup the payload info */
@@ -247,6 +248,7 @@ void inject_payload(ElfFile *f, WoodyData *woody, Payload *payload) {
 		woody->encrypt_size,
 		woody->encrypt_key, payload->input->key_len);
 
+    return (TRUE);
 	/* Save the new ELF file */
-	file_save(woody->ptr, woody->size);
+	// file_save(woody->ptr, woody->size);
 }

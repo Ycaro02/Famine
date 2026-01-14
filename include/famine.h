@@ -12,6 +12,10 @@
 #include "../libft/libft.h"
 #include "../include/log.h"
 
+#ifdef FAMINE_BONUS
+    #include <woody.h>
+#endif
+
 #define SIGNATURE "Famine version 1.0 (c)oded by nfour-kbutor-b\n"
 #define SIGNATURE_LEN (sizeof(SIGNATURE))
 
@@ -43,7 +47,7 @@ FamineFile  *famine_elf_file_get(char *path);
 void        destroy_famine_file(FamineFile *file);
 
 /* Signature injection */
-void        inject_signature(FamineFile *elf);
+void        famine_injection(FamineFile *elf, void *input, int woody_init_ok);
 
 #endif /* FAMINE_H */
 
