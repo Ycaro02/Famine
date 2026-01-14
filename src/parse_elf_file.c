@@ -1,5 +1,5 @@
-# include "../include/famine.h"
-# include "../include/elf_getter.h"
+# include <famine.h>
+# include <elf_getter.h>
 
 /** 
  *	@brief check if c value is val1 or val 2

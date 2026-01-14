@@ -1,6 +1,6 @@
-#include "../../include/woody.h"
-#include "../../include/elf_getter.h"
-#include "../../libft/parse_flag/parse_flag.h"
+#include <woody.h>
+#include <elf_getter.h>
+#include <parse_flag.h>
 
 static ElfFile *woody_woodpacker_init(char *path, Payload *payload, WoodyData *woody) {
 	ElfFile	*f = NULL;

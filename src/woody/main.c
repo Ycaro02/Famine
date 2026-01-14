@@ -1,4 +1,4 @@
-#include "../../include/woody.h"
+#include <woody.h>
 
 int process_woody(int argc, char **argv) {
 	UserInput	input = {0};

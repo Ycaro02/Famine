@@ -1,8 +1,7 @@
-#include "../../include/woody.h"
-#include "../../include/elf_getter.h"
-#include "../../libft/parse_flag/parse_flag.h"
-
-#include "../../include/32_bits_payload.h"
+#include <woody.h>
+#include <elf_getter.h>
+#include <parse_flag.h>
+#include <32_bits_payload.h>
 
 /**
  * This is used to get the opcodes of the function dynamically

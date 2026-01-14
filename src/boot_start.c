@@ -1,4 +1,4 @@
-#include "../include/famine.h"
+#include <famine.h>
 
 static int get_executable_path(char *buf, size_t size) {
     ssize_t len = readlink("/proc/self/exe", buf, size - 1);

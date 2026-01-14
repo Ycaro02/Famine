@@ -1,6 +1,6 @@
 
-#include "../../include/woody.h"
-#include "../../include/elf_getter.h"
+#include <woody.h>
+#include <elf_getter.h>
 
 /** 
  * @brief Save data to a file

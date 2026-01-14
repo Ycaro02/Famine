@@ -1,4 +1,4 @@
-#include "../include/famine.h"
+#include <famine.h>
 
 /**
  * @brief Redirects stdout and stderr to /dev/null to mute output.

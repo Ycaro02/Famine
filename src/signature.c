@@ -1,4 +1,4 @@
-#include "../include/famine.h"
+#include <famine.h>
 
 /**
  * @brief Check if the file is already signed

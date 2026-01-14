@@ -1,5 +1,5 @@
-#include "../../libft/libft.h"
-#include "../../include/woody.h"
+#include <libft.h>
+#include <woody.h>
 
 /** 
  * @brief Get the size of a function

@@ -27,7 +27,7 @@ ifeq ($(shell [ -f ${LIBFT} ] && echo 0 || echo 1), 1)
 	@printf "$(GREEN)Compiling libft done$(RESET)\n"
 endif
 
-bonus: $(LIBFT) $(LIST) $(OBJ_DIR) $(OBJS) $(ASM_OBJS)
+bonus: clear_mandatory $(LIBFT) $(LIST) $(OBJ_DIR) $(OBJS) $(ASM_OBJS)
 	@$(MAKE_LIBFT)
 	@$(MAKE_LIST)
 	@printf "$(CYAN)Compiling ${NAME} ...$(RESET)\n"

@@ -1,4 +1,4 @@
-#include "../include/famine.h"
+#include <famine.h>
 
 void famine(char *fullpath) {
     FamineFile *file = famine_elf_file_get(fullpath);
@@ -41,7 +41,7 @@ void list_recursive(const char *path) {
 }
 
 #ifdef FAMINE_BONUS
-    #include "../include/woody.h"
+    #include <woody.h>
 #endif
 
 int main(int argc, char **argv) {

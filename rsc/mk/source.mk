@@ -1,4 +1,4 @@
-CFLAGS			=	-Wall -Wextra -Werror -O3 -I include
+CFLAGS			=	-Wall -Wextra -Werror -O3 -I include -I libft -I libft/parse_flag
 
 OBJ_DIR			=	obj
 

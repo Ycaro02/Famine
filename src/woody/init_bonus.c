@@ -1,5 +1,5 @@
-#include "../../include/woody.h"
-#include "../../libft/parse_flag/parse_flag.h"
+#include <woody.h>
+#include <parse_flag/parse_flag.h>
 
 #define HELP_MSG "Usage: %s [OPTION]... [ELF_FILE]\n\
 -v, --verbose: verbose set log level to INFO\n\

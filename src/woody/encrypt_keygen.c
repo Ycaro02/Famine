@@ -1,5 +1,5 @@
-#include "../../include/elf_getter.h"
-#include "../../include/woody.h"
+#include <elf_getter.h>
+#include <woody.h>
 
 #define U8_ERROR 256
 

@@ -1,5 +1,5 @@
-#include "../../include/elf_getter.h"
-#include "../../include/woody.h"
+#include <elf_getter.h>
+#include <woody.h>
 
 /**
  * @brief Check if the segment is a text segment (if it's executable)

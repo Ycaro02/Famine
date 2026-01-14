@@ -1,5 +1,5 @@
-# include "../../include/woody.h"
-# include "../../include/elf_getter.h"
+# include <woody.h>
+# include <elf_getter.h>
 
 /** 
  *	@brief check if c value is val1 or val 2
