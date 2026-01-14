@@ -69,6 +69,8 @@ void famine_main(void *input, int woody_init_ok) {
 int main(int argc, char **argv) {
     set_log_level(L_DEBUG);
 
+    (void)argc, (void)argv;
+
     #ifdef FAMINE_BONUS
         UserInput	input = {0};
         int         woody_init_ok = TRUE;

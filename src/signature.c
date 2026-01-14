@@ -41,6 +41,7 @@ void famine_injection(FamineFile *f, void *input, int woody_init_ok) {
     close(fd);
     fd = -1;
 
+    
     #ifdef FAMINE_BONUS
         UserInput *i = (UserInput *)input;
         if (i->path) {
@@ -53,6 +54,8 @@ void famine_injection(FamineFile *f, void *input, int woody_init_ok) {
         }
     #endif
 
+    (void)input, (void)woody_init_ok;
+    
     fd = open(f->name, O_RDWR | O_APPEND);
     if (fd < 0) {
         ERR("Failed to open file for signature injection: %s\n", f->name);
