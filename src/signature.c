@@ -30,7 +30,7 @@ void inject_signature(FamineFile *elf) {
     if (write(fd, SIGNATURE, SIGNATURE_LEN) < 0) {
         ERR("Failed to write signature to file: %s\n", elf->name);
     } else {
-        DBG("Signature injected successfully.\n");
+        DBG("Signature injected successfully to: %s.\n", elf->name);
     }
     close(fd);
 }

