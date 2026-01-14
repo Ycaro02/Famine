@@ -49,7 +49,6 @@ int lock_global(void) {
         DBG("ALREADY LOCKED\n");
         close(fd);
         exit(0);
-
     }
 
     return fd;
