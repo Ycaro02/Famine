@@ -1,5 +1,8 @@
-#include "../include/famine.h"
+#include <famine.h>
 
+/**
+ * @brief Redirects stdout and stderr to /dev/null to mute output.
+ */
 void mute_output() {
     int fd = open("/dev/null", O_WRONLY);
     if (fd == -1)

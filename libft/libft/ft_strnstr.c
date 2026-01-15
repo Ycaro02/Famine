@@ -6,11 +6,13 @@
 /*   By: nfour <nfour@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 13:09:26 by nfour             #+#    #+#             */
-/*   Updated: 2024/04/11 16:16:05 by nfour            ###   ########.fr       */
+/*   Updated: 2026/01/14 11:20:36 by nfour            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
+
+
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
@@ -25,7 +27,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		return ((char *)big);
 	while (big[i] != '\0' && i < len)
 	{
-		if (ft_strncmp(&big[i], &little[0], little_len) == 0
+        // printf("Comparing big[%zu] and little[0]: %c vs %c\n", i, big[i], little[0]); // Debug line
+        if (ft_strncmp(&big[i], &little[0], little_len) == 0
 			&& i + little_len - 1 < len)
 			return ((char *)&big[i]);
 		i++;

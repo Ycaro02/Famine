@@ -1,4 +1,4 @@
-# include <famine.h>
+# include <woody.h>
 # include <elf_getter.h>
 
 /** 
@@ -17,7 +17,8 @@ static int check_range_int8_val(char c, int val1, int val2) {
 	return ((c >= val1 && c <= val2));
 }
 
-static int detect_os_abi(uint8_t os_abi) {
+static int detect_os_abi(uint8_t os_abi)
+{
 	/* 0 >= os_abi <= 3 || 0 >= os_abi <= 12 || special os case */
 	if (check_range_int8_val(os_abi, ELFOSABI_NONE, ELFOSABI_GNU)\
 		|| check_range_int8_val(os_abi, ELFOSABI_SOLARIS, ELFOSABI_OPENBSD)\
@@ -34,11 +35,12 @@ static int detect_os_abi(uint8_t os_abi) {
  *	@param str file name to check
  *	@param elf_struct pointer on elf header struct
 */
-static int header_identification_correct(char *str, void *file) {
+static int header_identification_correct(char *str, void *file)
+{
 	/* check magic number ELFMAG */
 	if (ft_strncmp(((char *) ((Elf64_Ehdr *) file)->e_ident), ELFMAG, SELFMAG) != 0) {
         // LOG(L_ERROR, "field 0 %d\n", ELF_HFIELD(file, 0));
-		LOG(L_ERROR, "Famine: %s: file format not recognized\n", str);
+		LOG(L_ERROR, "woody_woodpacker: %s: file format not recognized\n", str);
 		return (FALSE);
 	}
 	/* get class 32 or 64 bits */
@@ -85,21 +87,31 @@ static int header_identification_correct(char *str, void *file) {
  * @brief Free the allocated memory of the ELF file
  * @param file The ELF file to free
 */
-static void famine_elf_file_destroy(FamineElfFile *file) {
+void elf_file_destroy(ElfFile *file) {
 	munmap(file->ptr, file->size);
+	free(file->shstrtab);
+	free(file->text_data);
 	free(file);
 }
 
-static FamineElfFile *elf_file_struct_init(void *file, u64 size) {
-	FamineElfFile *f = NULL;
+static ElfFile *elf_file_struct_init(void *file, u64 size) {
+	ElfFile *f = NULL;
 	
-	if ((f = ft_calloc(1, sizeof(FamineElfFile))) == NULL) {
+	if ((f = ft_calloc(1, sizeof(ElfFile))) == NULL) {
 		LOG(L_ERROR, "Can't allocate memory for the ELF file\n");
 		return (NULL);
-	}
+	} else if ((f->text_data = ft_calloc(1, sizeof(TextData))) == NULL) {
+		LOG(L_ERROR, "Can't allocate memory for the text data\n");
+		munmap(file, size);
+		free(f);
+		return (NULL);
+	} 
 	f->ptr = file;
 	f->size = size;
 
+	/* Set the end ptr for check out of range */
+	f->end = f->ptr + f->size;
+	
 	/**
 	 * Get the endianess and the class of the ELF file
 	 * The f->endian field is 0 for same endianess and 1 for different endianess
@@ -110,23 +122,16 @@ static FamineElfFile *elf_file_struct_init(void *file, u64 size) {
 
 
 	/* Check for bonus version for 32 bits handling */
-	#ifndef FAMINE_BONUS
+	#ifndef WOODY_BONUS
 		if (!f->is_64) {
 			LOG(L_ERROR, "32 bits ELF file are not supported\n");
 			LOG(L_INFO, "Compile with make bonus to enable 32 bits support\n");
-			famine_elf_file_destroy(f);
+			elf_file_destroy(f);
 			return (NULL);
 		}
 	#endif
 
 	return (f);
-}
-
-void destroy_famine_file(FamineFile *file) {
-    if (file) {
-        free(file->name);
-        free(file);
-    }
 }
 
 /** 
@@ -135,8 +140,8 @@ void destroy_famine_file(FamineFile *file) {
  * @param size The size of the ELF file
  * @return The ELF file allocated in memory by mmap
  */
-FamineFile *famine_elf_file_get(char *path) {
-	FamineElfFile *f = NULL;
+ElfFile *elf_file_get(char *path) {
+	ElfFile *f = NULL;
 	char	*file = NULL;
 	int 	fd = -1;
 	u64		size = 0;
@@ -164,16 +169,6 @@ FamineFile *famine_elf_file_get(char *path) {
 		return (NULL);
 	}
 
-    famine_elf_file_destroy(f);
-
-    FamineFile *ff = ft_calloc(1, sizeof(FamineFile));
-    if (!ff) {
-        LOG(L_ERROR, "Can't allocate memory for FamineFile\n");
-        return (NULL);
-    }
-
-    ff->name = ft_strdup(path);
-    ff->size = size;
-	LOG(L_INFO, YELLOW"ELF file loaded size : %lu\n"RESET, size);
-	return (ff);
+	LOG(L_INFO, YELLOW"ELF file loaded size : %lu\n"RESET, f->size);
+	return (f);
 }

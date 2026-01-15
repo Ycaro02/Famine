@@ -1,3 +1,7 @@
 **/**.o
 Famine
+<<<<<<< HEAD
 test
+=======
+*core*
+>>>>>>> 7ad1d58 (Implement woody woodpacker with signature injection)

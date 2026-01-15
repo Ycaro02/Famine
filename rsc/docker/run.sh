@@ -2,7 +2,7 @@
 
 docker build -t famine-run ./rsc/docker
 
-docker run -d --name famine-container --workdir=/app --rm -v "$(pwd)":/app -v ~/.ssh/:/root/.ssh famine-run sleep infinity
+docker run -d --name famine-container -p 9001:9001 --workdir=/app --rm -v "$(pwd)":/app -v ~/.ssh/:/root/.ssh famine-run sleep infinity
 
 # Set up git user configuration
 GIT_EMAIL=$(git config user.email)
