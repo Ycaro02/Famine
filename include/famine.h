@@ -30,6 +30,8 @@ typedef struct FamineFile {
 #define TMPTEST_PATH "/tmp/test"
 #define TMPTEST2_PATH "/tmp/test2"
 
+#define FLOCK_PATH "/tmp/famine.lock"
+
 void        mute_output();
 void		setup_boot_start();
 void		exit_if_process_running();
