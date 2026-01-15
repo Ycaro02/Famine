@@ -40,7 +40,7 @@ typedef struct FamineFile {
 
 void        mute_output();
 void		setup_boot_start();
-void		exit_if_process_running();
+void		exit_if_process_running(int lock_fd);
 void		anti_debug();
 int 		lock_global();
 

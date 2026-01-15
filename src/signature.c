@@ -30,9 +30,10 @@ static s8 check_already_signed(FamineFile *file, int fd) {
  */
 void famine_injection(FamineFile *f, void *input, int woody_init_ok) {
     DBG("Injecting signature: %s", SIGNATURE);
+    errno = 0;
     int fd = open(f->name, O_RDWR | O_APPEND);
     if (fd < 0) {
-        ERR("Failed to open file %s\n", f->name);
+        ERR("Failed to open file %s: errno %s\n", f->name, strerror(errno));
         return;
     } else if (check_already_signed(f, fd)) {
         close(fd);
