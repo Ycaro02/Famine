@@ -45,33 +45,34 @@ static int header_identification_correct(char *str, void *file) {
 	char c = ELF_HFIELD(file, EI_CLASS);
 	int ret = check_identification_byte(c, ELFCLASS32, ELFCLASS64);
 	if (ret == FALSE) {
-		LOG(L_ERROR, "Invalid class found: %d\n", c);
+		LOG(L_ERROR, "Invalid class found in %s: %d\n", str, c);
 		return (ret);
 	}
 	/* get endian little or big */
 	c = ELF_HFIELD(file, EI_DATA);
     ret = check_identification_byte(c, ELFDATA2LSB, ELFDATA2MSB);
 	if (ret == FALSE) {
-		LOG(L_ERROR, "Invalid endian found: %d\n", c);
+		LOG(L_ERROR, "Invalid endian found in %s: %d\n", str, c);
 		return (ret);
 	}
 	/* check version must be current version */
 	if (((Elf64_Ehdr *) file)->e_ident[EI_VERSION] != EV_CURRENT) {
-		LOG(L_ERROR, "Invalid version found: %d\n", ((Elf64_Ehdr *) file)->e_ident[EI_DATA]);
+		LOG(L_ERROR, "Invalid version found in %s: %d\n", str, ((Elf64_Ehdr *) file)->e_ident[EI_DATA]);
 		return (FALSE);
 	}
 	/* detect os ABI */
 	int os_abi = detect_os_abi(ELF_HFIELD(file, EI_OSABI));
 	if (os_abi == -1) {
-		return (FALSE);
+        ERR("Invalid OS ABI found: %s\n", str);
+        return (FALSE);
 	}
 
 	s8 endian = ELF_HFIELD(file, EI_DATA) - local_endian_get();
 
 	Elf64_Half type = Ehdr_type_get(file, endian);
 
-	if (type != ET_EXEC && type != ET_DYN) {
-		LOG(L_ERROR, "Invalid type found: %d\n", type);
+	if (type != ET_EXEC && type != ET_DYN && type != ET_REL) {
+		LOG(L_ERROR, "Invalid type found in %s: %d\n", str, type);
 		return (FALSE);
 	}
 	// int abi_version = ELF_HFIELD(file, EI_ABIVERSION);
@@ -157,10 +158,12 @@ FamineFile *famine_elf_file_get(char *path) {
 	}
 	close(fd); /* now we had data in void * we can close fd */
 	if (header_identification_correct(path, file) == FALSE) {
+        ERR("Invalid ELF header in file: %s\n", path);
 		munmap(file, size);
 		return (NULL);
 	} if (!(f = elf_file_struct_init(file, size))) {
-		munmap(file, size);
+		ERR("Failed to initialize ELF file structure for file: %s\n", path);
+        munmap(file, size);
 		return (NULL);
 	}
 

