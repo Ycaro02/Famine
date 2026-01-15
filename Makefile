@@ -70,7 +70,7 @@ ifeq ($(shell [ -d ${OBJ_DIR} ] && echo 0 || echo 1), 0)
 endif
 
 fclean:		clean_lib clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) *core*
 	@printf "$(RED)Clean $(NAME)$(RESET)\n"
 
 clean_lib:
