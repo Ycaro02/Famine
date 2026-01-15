@@ -1,7 +1,6 @@
 #include "../include/famine.h"
 
 void exit_if_process_running(int lock_fd) {
-    const char *name = "test";
     DIR *dir = opendir("/proc");
     struct dirent *entry;
     char path[256];
