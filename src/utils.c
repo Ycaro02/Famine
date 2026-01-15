@@ -9,3 +9,16 @@ void mute_output() {
     dup2(fd, STDERR_FILENO);
     close(fd);
 }
+
+int lock_global() {
+    char path[64];
+    snprintf(path, sizeof(path), "/run/user/%d/famine.lock", getuid());
+
+    int fd = open(path, O_CREAT | O_RDWR, 0600);
+    if (fd < 0) exit(0);
+
+    if (flock(fd, LOCK_EX | LOCK_NB) < 0)
+        exit(0);
+
+    return fd;
+}
