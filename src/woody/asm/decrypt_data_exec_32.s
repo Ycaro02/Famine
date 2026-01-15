@@ -60,7 +60,7 @@ _reset_key_idx:
 _end_decrypt_data:
 	mov		eax, 0x4	; write
 	mov		ebx, 0x1	; fd 1
-	mov		edx, 0xe	; len of woody
+	mov		edx, 0x0	; len of woody
 	call	$ + 0x5
 	pop		ecx			; Get back the address of the message push by the call instruction
 
