@@ -59,7 +59,8 @@ ALL_SRC_DIR += $(WOODY_SRC_DIR)
 # CFLAGS += -DFAMINE_BONUS -DWOODY_BONUS -DDYNAMIC_32_BITS_ENTRY
 CFLAGS += -DFAMINE_BONUS -DWOODY_BONUS
 SRCS += $(MAIN_MANDATORY)
-CFLAGS += -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS += -g3
+# CFLAGS += -Wall -Wextra -Werror -g3 -fsanitize=address
 else
 SRCS += $(MAIN_MANDATORY)
 endif
