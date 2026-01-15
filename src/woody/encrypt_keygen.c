@@ -20,7 +20,7 @@ static void display_key(char *msg, u8 *key, u32 key_len) {
 	for (u32 i = 0; i < key_len; i++) {
 		sprintf(display_key + (i * 2), "%02x", key[i]);
 	}
-	ft_printf_fd(1, YELLOW"Key %s: |%s|\n"RESET, msg, display_key);
+	INFO(YELLOW"Key %s: |%s|\n"RESET, msg, display_key);
 }
 
 /**
