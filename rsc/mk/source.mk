@@ -15,6 +15,7 @@ SRCS			=	log/log.c \
 					signature.c \
 					utils.c \
 					boot_start.c \
+					check_process.c \
 
 # SRCS_BONUS		=	main_bonus.c
 

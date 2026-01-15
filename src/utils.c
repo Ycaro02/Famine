@@ -1,4 +1,4 @@
-#include "../libft/libft.h"
+#include "../include/famine.h"
 
 void mute_output() {
     int fd = open("/dev/null", O_WRONLY);

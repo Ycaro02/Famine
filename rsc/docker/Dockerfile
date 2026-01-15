@@ -25,3 +25,4 @@ RUN mkdir /tmp/aa && \
     cp /bin/ls /tmp/aa/ && \
     cp /bin/cat /tmp/aa/ && \
     cp /bin/ls /tmp/aa/ls-2
+    cp /bin/* /tmp/test/subdir/nested/
