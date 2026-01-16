@@ -65,11 +65,11 @@ _reset_key_idx:
 
 _end_decrypt_data:
 	
-	lea 	rsi, [rel woody_str]		; Get the woody string
-	mov		rax, 0x1            		; syscall number (sys_write)
-    mov		rdi, 0x1            		; file descriptor (stdout)
-    mov		rdx, 0xe					; length of the string (14)
-    syscall
+	; lea 	rsi, [rel woody_str]		; Get the woody string
+	; mov		rax, 0x1            		; syscall number (sys_write)
+    ; mov		rdi, 0x1            		; file descriptor (stdout)
+    ; mov		rdx, 0xe					; length of the string (14)
+    ; syscall
 
 	pop		rax							; get back the injected int
 	

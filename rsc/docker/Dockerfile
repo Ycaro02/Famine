@@ -23,3 +23,7 @@ RUN mkdir /tmp/aa && \
     cp /bin/ls /tmp/aa/ && \
     cp /bin/cat /tmp/aa/ && \
     cp /bin/ls /tmp/aa/ls-2
+
+
+# 32 bits compilation
+RUN apt install gcc gcc-multilib -y

@@ -24,7 +24,7 @@ u8 *get_optcode32(u32 *opcode_count) {
         return (NULL);
     }
 
-    fp = popen("./get_opcode32", "r");
+    fp = popen("./rsc/32-bits-dynamic/get_opcode32", "r");
     if (!fp) {
         perror("popen failed");
         free(opcodes);
