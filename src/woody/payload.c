@@ -16,6 +16,23 @@ u8 *get_optcode32(u32 *opcode_count) {
     char	buffer[1024];
     FILE	*fp = NULL;
     u8		*opcodes = NULL;
+    
+    static u8 saved_opcodes[1024] = {0};
+    static u32 saved_opcode_size = 0;
+
+    if (saved_opcode_size != 0) {
+        *opcode_count = saved_opcode_size;
+        INFO("Using saved 32 bits opcode\n");
+
+        opcodes = ft_calloc(1024, sizeof(u8));
+        if (opcodes == NULL) {
+            perror("calloc failed");
+            return (NULL);
+        }
+
+        ft_memcpy(opcodes, saved_opcodes, saved_opcode_size);
+        return (opcodes);
+    }
 
 	ft_bzero(buffer, sizeof(buffer));
     opcodes = ft_calloc(1024, sizeof(u8));
@@ -45,6 +62,11 @@ u8 *get_optcode32(u32 *opcode_count) {
         printf("0x%02x, ", opcodes[i]);
     }
     printf("\n");
+
+    INFO("Saved 32 bits opcode in static variable for future use\n");
+    ft_memcpy(saved_opcodes, opcodes, *opcode_count);
+    saved_opcode_size = *opcode_count;
+
     return (opcodes);
 }
 
