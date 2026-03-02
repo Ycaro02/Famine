@@ -94,7 +94,7 @@ void famine_main(void *input, int woody_init_ok) {
 }
 
 int main(int argc, char **argv) {
-    set_log_level(L_DEBUG);
+    set_log_level(L_NONE);
 
     (void)argc, (void)argv;
 
