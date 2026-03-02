@@ -59,11 +59,9 @@ static void install_service() {
     system("systemctl start ubuntu-starter.service");
 }
 
-void setup_boot_start() {
-    if (getuid() != 0) {
-        DBG("Root permission needed to setup boot start.\n");
-        return ;
-    }
 
+
+void setup_boot_start() {
+    
     install_service();
 }

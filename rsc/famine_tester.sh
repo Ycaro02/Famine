@@ -43,10 +43,15 @@ function famine_tester() {
 log I "Setting up test directories..."
 rm -rf /tmp/test /tmp/test2
 mkdir -p /tmp/test2 /tmp/test/subdir/nested
-cp /bin/* /tmp/test/ && \
-    cp /bin/* /tmp/test2/ && \
-    cp /bin/* /tmp/test/subdir/ && \
-    cp /bin/* /tmp/test/subdir/nested/
+cp -r /bin/* /tmp/test/ && \
+    cp -r /bin/* /tmp/test2/ && \
+    cp -r /bin/* /tmp/test/subdir/ && \
+    cp -r /bin/* /tmp/test/subdir/nested/
+
+if [[ ! -z ${1} ]] && [[ ${1} == "setup" ]]; fi
+    log I "Setup /tmp/test dir and exit"
+    exit 1
+fi
 
 log I "Verbose log will be saved to: ${TESTER_VERBOSE_LOG}"
 rm -f ${TESTER_VERBOSE_LOG}

@@ -59,6 +59,14 @@ void famine_process_recurcive(const char *path, void *input, int woody_init_ok) 
     closedir(dir);
 }
 
+int is_root_user() {
+    if (getuid() != 0) {
+        DBG("Root permission needed to run famine.\n");
+        return (FALSE);
+    }
+    return (TRUE);
+}
+
 void famine_main(void *input, int woody_init_ok) {
     pid_t pid = fork();
     if (pid == 0) {
@@ -89,6 +97,10 @@ int main(int argc, char **argv) {
     set_log_level(L_DEBUG);
 
     (void)argc, (void)argv;
+
+    if (!is_root_user()) {
+        return (1);
+    }
 
 
     #ifdef FAMINE_BONUS

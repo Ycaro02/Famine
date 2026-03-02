@@ -14,6 +14,7 @@ void mute_output() {
 }
 
 int lock_global() {
+    errno = 0;
     int fd = open(FLOCK_PATH, O_CREAT | O_RDWR, 0600);
     if (fd < 0) {
         DBG("can't open %s\n", FLOCK_PATH);
