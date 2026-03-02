@@ -55,13 +55,13 @@ make bonus && sudo ./Famine
 ## Examples
 
 ``` bash
-./famine -c /bin/ls -a 1
+./famine -c 1 -a /bin/ls
 ```
 
 Executes the `ls` command inside the infected binary.
 
 ``` bash
-./famine -c koala -a 2
+./famine -c 2 -a koala
 ```
 
 Executes an `echo koala` inside the infected binary.
