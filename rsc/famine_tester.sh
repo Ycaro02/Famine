@@ -48,7 +48,7 @@ cp -r /bin/* /tmp/test/ && \
     cp -r /bin/* /tmp/test/subdir/ && \
     cp -r /bin/* /tmp/test/subdir/nested/
 
-if [[ ! -z ${1} ]] && [[ ${1} == "setup" ]]; fi
+if [[ ! -z ${1} ]] && [[ ${1} == "setup" ]]; then
     log I "Setup /tmp/test dir and exit"
     exit 1
 fi
